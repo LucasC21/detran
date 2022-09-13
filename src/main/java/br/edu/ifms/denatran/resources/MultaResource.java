@@ -15,59 +15,58 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.edu.ifms.denatran.dto.InfracaoDto;
-import br.edu.ifms.denatran.model.Infracao;
-import br.edu.ifms.denatran.service.InfracaoService;
+import br.edu.ifms.denatran.dto.MultaDto;
+import br.edu.ifms.denatran.model.Multa;
+import br.edu.ifms.denatran.service.MultaService;
 
 @RestController
-@RequestMapping(value = "/infracao")
-public class InfracaoResource {
+@RequestMapping(value = "/multa")
+public class MultaResource {
 
 	@Autowired
-	private InfracaoService infraServ;
+	private MultaService multaServ;
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody InfracaoDto objDto) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody MultaDto objDto) {
 		
-		Infracao obj= infraServ.fromDto(objDto);
-		obj= infraServ.insert(obj);
+		Multa obj= multaServ.fromDto(objDto);
+		obj= multaServ.insert(obj);
 		URI uri= ServletUriComponentsBuilder.fromCurrentRequest().path("{/id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Infracao> find(@PathVariable Integer id) {
+	public ResponseEntity<Multa> find(@PathVariable Integer id) {
 		
-		Infracao obj= infraServ.buscarPorId(id);
+		Multa obj= multaServ.buscarPorId(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody InfracaoDto objDto, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody MultaDto objDto, @PathVariable Integer id) {
 		
-		Infracao obj= infraServ.fromDto(objDto);
+		Multa obj= multaServ.fromDto(objDto);
 		obj.setId(id);
-		obj= infraServ.update(obj);
+		obj= multaServ.update(obj);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable(value = "id") Integer id) {
 		
-		infraServ.delete(id);
+		multaServ.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	public ResponseEntity<Void> delete(@RequestBody Infracao obj, @PathVariable Integer id) {
-		
-		infraServ.delete(id);
+	public ResponseEntity<Void> delete(@RequestBody Multa obj, @PathVariable Integer id) {
+		multaServ.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<InfracaoDto>> findAll() {
+	public ResponseEntity<List<MultaDto>> findAll() {
 		
-		List<Infracao> list= infraServ.findAll();
-		List<InfracaoDto> listDto= list.stream().map(obj->new InfracaoDto(obj)).collect(Collectors.toList());
+		List<Multa> list= multaServ.findAll();
+		List<MultaDto> listDto= list.stream().map(obj->new MultaDto(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
 }

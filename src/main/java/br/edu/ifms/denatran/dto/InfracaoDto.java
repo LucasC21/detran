@@ -2,6 +2,8 @@ package br.edu.ifms.denatran.dto;
 
 import java.io.Serializable;
 
+import br.edu.ifms.denatran.model.Infracao;
+
 public class InfracaoDto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -16,12 +18,12 @@ public class InfracaoDto implements Serializable{
 		
 	}
 
-	public InfracaoDto(Integer id, String descricao, Integer pontos, Double valor) {
+	public InfracaoDto(Infracao obj) {
 		super();
-		this.id = id;
-		this.descricao = descricao;
-		this.pontos = pontos;
-		this.valor = valor;
+		this.id = obj.getId();
+		this.descricao = obj.getDescricao();
+		this.pontos = obj.getPontos();
+		this.valor = obj.getValor();
 	}
 
 	public Integer getId() {
